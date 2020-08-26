@@ -3,7 +3,7 @@
 %G = graph([1 2 3 4 1],[2 3 4 1 3]);
 %G = graph([1 2 3 4 1 2],[2 3 4 1 3 4]);
 %G = graph ([3 3 3 3 1 2 4],[1 2 4 5 2 4 5]);
-G = graph([1 2 3 4],[2 3 4 1]);
+%G = graph([1 2 3 4],[2 3 4 1]);
 %G = graph([1 1 1 1],[2 2 2 2]);
 
 G.Edges.Type(:) = {'tube'};
@@ -24,9 +24,7 @@ if (isEulerian ~= 0)
     big_nodes = find(deg > 2);
     
     %Calculate last node
-    last_edge = E(path(length(path)),:);
-    second2last_edge = E(path(length(path)-1),:);
-    last_node = last_edge((last_edge ~= second2last_edge)&(last_edge ~= flip(second2last_edge)));
+    [last_node] = FindLastNode(H,path);
     
     %Iterate through all nodes with greater than two edges (except last node)
     for i = 1:size(big_nodes,1)
@@ -43,14 +41,18 @@ if (isEulerian ~= 0)
             nodesid = find(edg ~= node2split);
             connected_nodes = edg(nodesid);
 
-            %delete these edges
+            %delete these edges 
+            %BUG!!! Can't deal with edge case when edges to delete are identical
             edges2delete = [max(findedge(H,connected_nodes(1),node2split)), max(findedge(H,connected_nodes(2),node2split))] ;  
             H = rmedge(H,edges2delete);
 
             %connect old nodes to a new node with a "tube" edge
             new_node = size(H.Nodes,1)+ 1;
             H = addedge(H,connected_nodes(1),new_node);
-            H = addedge(H,connected_nodes(2),new_node);
+            if (connected_nodes(1) ~= connected_nodes(2))
+                H = addedge(H,connected_nodes(2),new_node);
+            end
+            
 
             idx = findedge(H,connected_nodes(1),new_node);
             H.Edges.Type(idx) = {'tube'};       
@@ -69,14 +71,13 @@ if (isEulerian ~= 0)
         [isEulerian, path] = grIsEulerian(E); 
         
         %Calculate new end node in path 
-        last_edge = E(path(length(path)),:);
-        second2last_edge = E(path(length(path)-1),:);
-        last_node =  last_edge((last_edge ~= second2last_edge)&(last_edge ~= flip(second2last_edge)));
+        [last_node] = FindLastNode(H,path);
     end
     
     % Split the end node (requires different method):   
     
     %Create a new node
+    last_edge = E(path(length(path)),:);
     new_node = size(H.Nodes,1)+ 1;
     old_node = last_edge(last_edge ~= last_node); 
     %Remove the last edge
@@ -109,3 +110,4 @@ end
 
 %string_id = find(contains(G.Edges.Type,'string'));
 %tube_id = find(contains(G.Edges.Type,'tube'));
+
