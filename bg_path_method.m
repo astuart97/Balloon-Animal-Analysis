@@ -1,8 +1,7 @@
-%G = graph ([3 3 3 3 1 2 4],[1 2 4 5 2 4 5]);
+G = graph ([3 3 3 3 1 2 4],[1 2 4 5 2 4 5]);
 %G = graph([1 2 3 4 1],[2 3 4 1 3]);
 %G = graph([1 1 1 1],[2 2 2 2]);
-G = graph([1 1 2 2 3 3 4 4 5],[2 3 3 4 4 5 5 6 6]);
-
+%G = graph([1 1 2 2 3 3 4 4 5],[2 3 3 4 4 5 5 6 6]);
 
 G.Edges.Type(:) = {'tube'};
 deg = degree(G);
@@ -67,5 +66,3 @@ plot(G)
 figure;
 h = plot(H,'EdgeLabel',H.Edges.Type);
 highlight(h,string_edges(:,1),string_edges(:,2),'EdgeColor','r','LineWidth',1.5)
-
-
