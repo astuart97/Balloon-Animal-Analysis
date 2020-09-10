@@ -14,6 +14,9 @@ path_edges = E(path,:);
         next_node = current_edge(current_edge ~= current_node);
         node_order = [node_order , next_node];
         current_node = next_node;
+        
     end
+    
+    %node_order = flip(node_order);
 end
 
