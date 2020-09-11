@@ -1,4 +1,4 @@
-function [euler_paths] = FindEulerPaths(G)
+function [all_paths] = FindEulerPaths(G)
 %Takes a graph G with an Eulerian path and returns all possible paths
 
 [isEulerian] = grIsEulerian(G.Edges.EndNodes);
@@ -14,10 +14,13 @@ else
     return;
 end
 
-euler_paths = [];
+all_paths = [];
 target_size = length(G.Edges.EndNodes);
+
+%Find all paths from each start node
 for i = 1:length(start_nodes)
-    euler_paths = FindEulerPathsHelper(G,start_nodes(i),target_size);
+    [a,paths] = FindEulerPathsHelper(G,start_nodes(i),target_size,[]);
+    all_paths = [all_paths;paths];
 end
 
 end

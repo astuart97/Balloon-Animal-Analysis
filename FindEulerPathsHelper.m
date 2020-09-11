@@ -1,4 +1,4 @@
-function [edge] = FindEulerPathsHelper(G,u,target_size)
+function [edge,good_paths] = FindEulerPathsHelper(G,u,target_size,good_paths)
 %Recursively finds Euler path
 
 %Recur for all the vertices adjacent to this vertex 
@@ -17,14 +17,13 @@ function [edge] = FindEulerPathsHelper(G,u,target_size)
           
           %Remove edge from graph and recursively call function on subgraph
           G_copy = rmedge(G,edge2remove);
-          edge = [edge ;FindEulerPathsHelper(G_copy,v,target_size)];
-          disp(edge);
+          [next_edge, good_paths] = FindEulerPathsHelper(G_copy,v,target_size,good_paths);
+          edge = [edge ;next_edge];
       end
       
       % Record all paths that have the right number of edges (full path)
-      if (length(edge) == target_size)
-          disp("AYYYYE LEGGO");
-          disp(edge);
+      if (size(edge,1) == target_size)        
+          good_paths = [good_paths; edge];
       end
   end
       
