@@ -1,9 +1,11 @@
 clear all;
 close all;
 G = graph ([3 3 3 3 1 2 4],[1 2 4 5 2 4 5]);
+G = graph([1 1 1 2 3],[2 3 4 3 4]);
 %H = graph ([1 1 1 2 3 4 5],[2 3 4 4 4 5 6]);
 %H = graph([1 1 1 1],[2 2 2 2]);
-H = graph ([3 3 3 3 1 2 4 6 6],[1 2 4 5 2 4 5 2 4]);
+%H = graph ([3 3 3 3 1 2 4 6 6],[1 2 4 5 2 4 5 2 4]);
+H = graph([1 2 3 4],[2 3 4 1]);
 
 %Verify that paths G and H have Eulerian paths
 [isEulerianG, path_G] = grIsEulerian(G.Edges.EndNodes);

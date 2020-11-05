@@ -1,6 +1,6 @@
 %% Generating Simple Graphs
 
-%G = graph([1 2 3 4 1],[2 3 4 1 3]);
+G = graph([1 2 3 4 1],[2 3 4 1 3]);
 %G = graph([1 2 3 4 1 2],[2 3 4 1 3 4]);
 %G = graph ([3 3 3 3 1 2 4],[1 2 4 5 2 4 5]);
 %G = graph([1 2 3 4],[2 3 4 1]);
@@ -94,14 +94,16 @@ if (isEulerian ~= 0)
     for i = 1:size(string_edges,1)
         H = addedge(H,string_edges(i,1),string_edges(i,2));
         idx = findedge(H,string_edges(i,1),string_edges(i,2));
-        H.Edges.Type(idx) = {'string'};        
+        H.Edges.Type(idx) = {'cable'};        
     end  
 
 %Plot new graph    
 figure;
-plot(H)
+subplot(1,2,1);plot(G); title('Overall Structure');
+subplot(1,2,2);plot(H);
 h = plot(H,'EdgeLabel',H.Edges.Type);
 highlight(h,string_edges(:,1),string_edges(:,2),'EdgeColor','r','LineWidth',1.5)
+title('Cable Routing');
    
 else 
     disp("NO LOOP");

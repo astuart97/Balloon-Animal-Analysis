@@ -7,6 +7,7 @@ dub_string_edges = [];
 
 for i = 1:length(node_order)
     current_node = node_order(i);
+    %Check to see if we have already visited node
     if (ismember(current_node,visited_nodes))
         if ~findedge(G,i,find(node_order == current_node,1))      
             G = addedge(G,i,find(node_order == current_node,1));
